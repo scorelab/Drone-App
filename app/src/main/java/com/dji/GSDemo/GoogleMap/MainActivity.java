@@ -88,7 +88,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private DJIWaypointMission.DJIWaypointMissionFinishedAction mFinishedAction = DJIWaypointMission.DJIWaypointMissionFinishedAction.NoAction;
     private DJIWaypointMission.DJIWaypointMissionHeadingMode mHeadingMode = DJIWaypointMission.DJIWaypointMissionHeadingMode.Auto;
 
-    private FloatingActionButton locate, config, start, prepare, camera;
+    private FloatingActionButton locate, config, start, prepare, camera, btnNext;
 
     private LatLng l1;
 
@@ -138,6 +138,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         prepare = (FloatingActionButton) findViewById(R.id.prepare);
         start = (FloatingActionButton) findViewById(R.id.start);
         camera = (FloatingActionButton) findViewById(R.id.camera);
+        btnNext = (FloatingActionButton) findViewById(R.id.btnNext);
 //        stop = (Button) findViewById(R.id.stop);
 
         locate.setOnClickListener(this);
@@ -147,6 +148,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         prepare.setOnClickListener(this);
         start.setOnClickListener(this);
         camera.setOnClickListener(this);
+        btnNext.setOnClickListener(this);
 //        stop.setOnClickListener(this);
 
 
@@ -364,17 +366,18 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case R.id.start:{
                 startWaypointMission();
                 break;
-            }
-            case R.id.stop:{
-                stopWaypointMission();
-                break;
+//            }
+//            case R.id.stop:{
+//                stopWaypointMission();
+//                break;
             }case R.id.camera:{
                 captureAction();
                 break;
             }
-//            case R.id.fab1:{
-//                Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_LONG).show();
-//            }
+            case R.id.btnNext:{
+                Intent fireBase1 = new Intent(MainActivity.this, showMe.class);
+                startActivity(fireBase1);
+            }
             default:
                 break;
         }

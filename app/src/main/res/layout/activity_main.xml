@@ -94,6 +94,16 @@
                 android:layout_alignStart="@+id/locate"
                 android:layout_marginBottom="15dp"
                 />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btnNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:backgroundTint="#eeeeee"
+                android:src="@drawable/aircraft"
+                android:layout_above="@+id/camera"
+                android:layout_alignEnd="@+id/camera"
+                android:layout_marginBottom="15dp"
+                />
 
         </RelativeLayout>
 
