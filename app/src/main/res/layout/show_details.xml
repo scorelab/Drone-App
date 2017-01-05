@@ -6,16 +6,16 @@
     android:background="#bfbbb1"
     android:weightSum="1">
 
-    <ImageView
+    <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"
-        android:padding="5dp"
-        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
+        android:padding="50dp"
         />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -29,13 +29,5 @@
         android:layout_gravity="center_horizontal"
         android:text="Revoke this mission"
         android:layout_marginTop="300dp" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:padding="50dp"
-        />
 
 </LinearLayout>
