@@ -375,7 +375,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
             }
             case R.id.btnNext:{
-                Intent fireBase1 = new Intent(MainActivity.this, showMe.class);
+                Intent fireBase1 = new Intent(MainActivity.this, FireBaseActivity.class);
                 startActivity(fireBase1);
             }
             default:

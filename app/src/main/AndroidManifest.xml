@@ -86,7 +86,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".showDetail"/>
-        <activity android:name=".showMe"/>
         <activity android:name=".FireBaseActivity" />
 
     </application>
