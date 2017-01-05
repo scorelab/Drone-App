@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,40 +28,28 @@ import java.util.ArrayList;
 
 import static com.firebase.client.DataSnapshot.*;
 
-//import android.support.design.widget.FloatingActionButton;
-//import android.support.v7.widget.SearchView;
-//import android.support.v7.widget.SearchView;
-//import android.view.View;
-//import android.widget.Button;
-//import android.widget.EditText;
-
 public class FireBaseActivity extends AppCompatActivity {
+    private static final String TAG = DJIDemoApplication.class.getName();
     final static String DB_URL = "https://dengue-map-1.firebaseio.com/";
-//    EditText nameT, dataT;
-//    Button saveBtn;
     Firebase fire;
     ArrayList<String> names = new ArrayList<>();
     ArrayList<String> dataArray = new ArrayList<>();
     ArrayAdapter<String> adapter;
     ListView lv;
-//    SearchView sv;
     EditText inputSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firebase);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         lv = (ListView) findViewById(R.id.lv);
-//        sv = (SearchView) findViewById(R.id.searchView1);
         Firebase.setAndroidContext(this);
         fire = new Firebase(DB_URL);
         this.returnData();
         inputSearch = (EditText) findViewById(R.id.inputSearch);
-//        adapter = new ArrayAdapter<>(FireBaseActivity.this, android.R.layout.simple_list_item_1, names);
-//        lv.setAdapter(adapter);
         inputSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -77,7 +66,6 @@ public class FireBaseActivity extends AppCompatActivity {
 
             }
         });
-
 
 /****************************************************************************************************/
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -197,6 +185,7 @@ public class FireBaseActivity extends AppCompatActivity {
             m.setData(data.getValue(Mission.class).getData());
             names.add(m.getName());
             dataArray.add(m.getData());
+            Log.d(TAG,"name:"+m.getName());
         }
         if (names.size() > 0) {
             adapter = new ArrayAdapter<>(FireBaseActivity.this, android.R.layout.simple_list_item_1, names);

@@ -20,14 +20,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:queryHint="Search.."
-        android:inputType="textVisiblePassword"
-        />
+        android:inputType="textVisiblePassword"/>
 
     <ListView
         android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/inputSearch"
-    />
+        android:layout_below="@+id/inputSearch"/>
 
     </RelativeLayout>
