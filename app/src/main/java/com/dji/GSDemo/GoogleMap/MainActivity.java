@@ -9,19 +9,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.app.AppCompatActivity;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,30 +27,26 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import android.support.design.widget.FloatingActionButton;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import dji.common.airlink.SDRHdOffsetParams;
 import dji.common.camera.DJICameraSettingsDef;
 import dji.common.flightcontroller.DJIFlightControllerCurrentState;
 import dji.common.util.DJICommonCallbacks;
 import dji.sdk.camera.DJICamera;
 import dji.sdk.flightcontroller.DJIFlightController;
-import dji.common.flightcontroller.DJIFlightControllerDataType;
 import dji.sdk.flightcontroller.DJIFlightControllerDelegate;
 import dji.sdk.missionmanager.DJIMission;
 import dji.sdk.missionmanager.DJIMissionManager;
 import dji.sdk.missionmanager.DJIWaypoint;
 import dji.sdk.missionmanager.DJIWaypointMission;
 import dji.sdk.products.DJIAircraft;
-import dji.sdk.base.DJIBaseComponent;
 import dji.sdk.base.DJIBaseProduct;
 import dji.common.error.DJIError;
 
@@ -91,6 +83,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private FloatingActionButton locate, config, start, prepare, camera, btnNext;
 
     private LatLng l1;
+
+    private double lat[],lng[];
+    private float alt[];
 
     @Override
     protected void onResume(){
@@ -188,18 +183,46 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mapFragment.getMapAsync(this);
 
         /*sample path*/
-        double lat[]={6.90118,6.901177,6.90118,6.901196,6.90106,6.901055,6.90106,6.901068,6.900952,6.900933,6.900938,6.900951};
-        double lng[]={79.861088,79.860914,79.860689,79.860541,79.860536,79.86069,79.860886,79.861093,79.861096,79.860868,79.860568,79.860319};
-        int alt[] = {20,20,20,20,30,30,30,30,20,20,20,20};
-        if (mWaypointMission != null) {
-            for (int i = 0; i <= lat.length; i++) {
-                DJIWaypoint var = new DJIWaypoint(lat[i], lng[i], alt[i]);
-                mWaypointMission.addWaypoint(var);
+        //double lat[]={6.90118,6.901177,6.90118,6.901196,6.90106,6.901055,6.90106,6.901068,6.900952,6.900933,6.900938,6.900951};
+        //double lng[]={79.861088,79.860914,79.860689,79.860541,79.860536,79.86069,79.860886,79.861093,79.861096,79.860868,79.860568,79.860319};
+        //int alt[] = {20,20,20,20,30,30,30,30,20,20,20,20};
+        Intent in = getIntent();
+        String str = in.getStringExtra("data");
+        decodeData(str);
+        Log.d(TAG, ""+alt.length);
+//            double lat[]={6.90118,6.901177,6.90118,6.901196,6.90106,6.901055,6.90106,6.901068,6.900952,6.900933,6.900938,6.900951};
+//            double lng[]={79.861088,79.860914,79.860689,79.860541,79.860536,79.86069,79.860886,79.861093,79.861096,79.860868,79.860568,79.860319};
+//            float alt[]={20,20,20,20,30,30,30,30,20,20,20,20};
+            if (mWaypointMission != null) {
+                for (int i = 0; i <= lat.length; i++) {
+                    DJIWaypoint var = new DJIWaypoint(lat[i], lng[i], alt[i]);
+                    mWaypointMission.addWaypoint(var);
+                }
             }
-        }
-
         /*if(drone is not connected){disable start_btn}*/
+    }
 
+    public void decodeData(String test){
+        test=test.replace(")(", ",");
+        test=test.replace("[(","");
+        test=test.replace(")]","");
+        //System.out.println(test);
+        List<String> lst = Arrays.asList(test.split(","));
+        int len = lst.size();
+        //System.out.println(len);
+        lat = new double[len/3];
+        lng = new double[len/3];
+        alt = new float[len/3];
+        //System.out.println(lst);
+        int j=0;
+        for(int i=0; i<len;){
+            lat[j]=Double.parseDouble(lst.get(i++));
+            lng[j]=Double.parseDouble(lst.get(i++));
+            alt[j++]=Float.parseFloat(lst.get(i++));
+        }
+        for (int x=0;x<len/3;x++){
+            Log.d(TAG, ""+lat[x]+","+lng[x]+","+alt[x]);
+        }
     }
 
     protected BroadcastReceiver mReceiver = new BroadcastReceiver() {

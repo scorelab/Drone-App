@@ -72,7 +72,7 @@ public class FireBaseActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getApplicationContext(), names.get(position), Toast.LENGTH_LONG).show();
-                Intent detail1 = new Intent(parent.getContext(), showDetail.class);
+                Intent detail1 = new Intent(parent.getContext(), MainActivity.class);
                 detail1.putExtra("name", names.get(position));
                 detail1.putExtra("data", dataArray.get(position));
                 startActivity(detail1);

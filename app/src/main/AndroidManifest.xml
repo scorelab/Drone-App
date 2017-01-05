@@ -75,7 +75,7 @@
         <!-- DJI SDK -->
 
         <activity
-            android:name=".MainActivity"
+            android:name=".FireBaseActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
             android:label="@string/app_name"
             android:screenOrientation="landscape">
@@ -86,7 +86,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".showDetail"/>
-        <activity android:name=".FireBaseActivity" />
+        <activity android:name=".MainActivity" />
 
     </application>
 
