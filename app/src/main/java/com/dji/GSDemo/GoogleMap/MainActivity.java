@@ -84,8 +84,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     private LatLng l1;
 
-    private double lat[],lng[];
-    private float alt[];
+    private DJIWaypoint var = null;
 
     @Override
     protected void onResume(){
@@ -183,25 +182,35 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mapFragment.getMapAsync(this);
 
         /*sample path*/
-        //double lat[]={6.90118,6.901177,6.90118,6.901196,6.90106,6.901055,6.90106,6.901068,6.900952,6.900933,6.900938,6.900951};
-        //double lng[]={79.861088,79.860914,79.860689,79.860541,79.860536,79.86069,79.860886,79.861093,79.861096,79.860868,79.860568,79.860319};
-        //int alt[] = {20,20,20,20,30,30,30,30,20,20,20,20};
+//        double lat[]={6.90118,6.901177,6.90118,6.901196,6.90106,6.901055,6.90106,6.901068,6.900952,6.900933,6.900938,6.900951};
+//        double lng[]={79.861088,79.860914,79.860689,79.860541,79.860536,79.86069,79.860886,79.861093,79.861096,79.860868,79.860568,79.860319};
+//        int alt[] = {20,20,20,20,30,30,30,30,20,20,20,20};
         Intent in = getIntent();
         String str = in.getStringExtra("data");
-        decodeData(str);
-        Log.d(TAG, ""+alt.length);
-//            double lat[]={6.90118,6.901177,6.90118,6.901196,6.90106,6.901055,6.90106,6.901068,6.900952,6.900933,6.900938,6.900951};
-//            double lng[]={79.861088,79.860914,79.860689,79.860541,79.860536,79.86069,79.860886,79.861093,79.861096,79.860868,79.860568,79.860319};
-//            float alt[]={20,20,20,20,30,30,30,30,20,20,20,20};
+//        decodeData(str);
+
+        double lat[]={6.90118,6.901177,6.90118,6.901196,6.90106,6.901055,6.90106,6.901068,6.900952,6.900933,6.900938,6.900951};
+        double lng[]={79.861088,79.860914,79.860689,79.860541,79.860536,79.86069,79.860886,79.861093,79.861096,79.860868,79.860568,79.860319};
+        int alt[] = {20,20,20,20,30,30,30,30,20,20,20,20};
+        /**Add waypoint**/
+        Log.d(TAG,""+lat.length);
+        LatLng tmp;
+
+//        if(mWaypointMission == null){
+//            mWaypointMission = new DJIWaypointMission();
+//        }
+
+        for (int i = 0; i < lat.length; i++) {
+            DJIWaypoint var = new DJIWaypoint(lat[i],lng[i],alt[i]);
             if (mWaypointMission != null) {
-                for (int i = 0; i <= lat.length; i++) {
-                    DJIWaypoint var = new DJIWaypoint(lat[i], lng[i], alt[i]);
-                    mWaypointMission.addWaypoint(var);
-                }
+                mWaypointMission.addWaypoint(var);
+                Log.d(TAG,"mission on process");
             }
+        }
+        isAdd=false;
         /*if(drone is not connected){disable start_btn}*/
     }
-
+/*
     public void decodeData(String test){
         test=test.replace(")(", ",");
         test=test.replace("[(","");
@@ -224,7 +233,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             Log.d(TAG, ""+lat[x]+","+lng[x]+","+alt[x]);
         }
     }
-
+*/
     protected BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
         @Override
@@ -245,14 +254,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         if (product == null || !product.isConnected()) {
             setResultToToast("Disconnected");
             mMissionManager = null;
-            start.setEnabled(false);
+//            start.setEnabled(false);
             return;
         } else {
             setResultToToast("Product connected");
             mMissionManager = product.getMissionManager();
             mMissionManager.setMissionProgressStatusCallback(this);
             mMissionManager.setMissionExecutionFinishedCallback(this);
-            start.setEnabled(true);
+//            start.setEnabled(true);
         }
 
         mWaypointMission = new DJIWaypointMission();
@@ -389,10 +398,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case R.id.start:{
                 startWaypointMission();
                 break;
-//            }
-//            case R.id.stop:{
-//                stopWaypointMission();
-//                break;
             }case R.id.camera:{
                 captureAction();
                 break;
@@ -503,7 +508,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
-
                 })
                 .create()
                 .show();
@@ -569,11 +573,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             });
 
         }
-        LatLng st,en;
-        st = new LatLng(mWaypointMission.getWaypointAtIndex(0).latitude,mWaypointMission.getWaypointAtIndex(0).longitude);
-        int len = mWaypointMission.waypointsList.size();
-        en = new LatLng(mWaypointMission.getWaypointAtIndex(len).latitude,mWaypointMission.getWaypointAtIndex(len).longitude);
-        TakePhoto(st,en);
+//        LatLng st,en;
+//        st = new LatLng(mWaypointMission.getWaypointAtIndex(0).latitude,mWaypointMission.getWaypointAtIndex(0).longitude);
+//        int len = mWaypointMission.waypointsList.size();
+//        en = new LatLng(mWaypointMission.getWaypointAtIndex(len).latitude,mWaypointMission.getWaypointAtIndex(len).longitude);
+//        TakePhoto(st,en);
         /*
         if (droneLocation==first_gps_location){start camera function}
         if(droneLocation==end_gps_location) {end camera function}
@@ -692,14 +696,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 while (pos==end) {
 //                System.out.println("Hello world");
                     captureAction();
-                    Thread.sleep(1000); // every 3 seconds
+                    Thread.sleep(1000); // every 1 seconds
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
     }
-
-
 }
